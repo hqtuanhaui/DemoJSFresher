@@ -3,3 +3,11 @@
 .page{
     color: red;
 }
+
+.formContent{
+    width: 600px;
+    height: 450px;
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+}

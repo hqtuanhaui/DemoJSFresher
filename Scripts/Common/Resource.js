@@ -28,6 +28,13 @@ Resource.CommandType = {
     Add: "Add",
     Edit: "Edit",
     Delete: "Delete",
+    Refresh: "Refresh",
     Import: "Import",
     Export: "Export"
+}
+
+// Các action trên form detail
+Resource.CommandForm = {
+    Save: "Save",
+    Cancel: "Cancel"
 }

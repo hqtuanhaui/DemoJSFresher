@@ -6,11 +6,25 @@ class BaseGrid {
         // Lưu lại grid
         me.grid = $(gridId);
 
+        // Lưu lại dữ liệu
+        me.cacheData = [];
+
+        // Form detail
+        me.formDetail = null;
+
         // Lấy dữ liệu từ server
         me.getDataServer();
 
         // Khởi tạo các sự kiện
         me.initEvents();
+    }
+
+    // Khởi tạo form detail
+    initFormDetail(formId){
+        let me = this;
+        
+        // Khởi tạo form detail
+        me.formDetail = new BaseForm(formId);
     }
 
     /**
@@ -34,8 +48,11 @@ class BaseGrid {
                     case Resource.CommandType.Edit: // Sửa
                         me.edit();
                         break;
-                    case Resource.CommandType.Delete: // Nhập khẩu
+                    case Resource.CommandType.Delete: // Xóa
                         me.delete();
+                        break;
+                    case Resource.CommandType.Refresh: // Nạp
+                        me.refresh();
                         break;
                     case Resource.CommandType.Import: // Nhập khẩu
                         me.import();
@@ -78,6 +95,8 @@ class BaseGrid {
         // Gọi ajax lấy dữ liệu trên server
         CommonFn.Ajax(urlFull, Resource.Method.Get, {}, function(response){
             if(response){
+                me.cacheData = [...response];
+
                 me.loadData(response);
             }else{
                 console.log("Có lỗi khi lấy dữ liệu từ server");
@@ -98,7 +117,7 @@ class BaseGrid {
             table.append(thead);
             table.append(tbody);
     
-        me.grid.html("");
+        me.grid.find("table").remove();
         me.grid.append(table);
 
         // Làm một số thứ sau khi binding xong
@@ -212,6 +231,9 @@ class BaseGrid {
     afterBinding(){
         let me = this;
 
+        // Lấy Id để phân biệt các bản ghi
+        me.ItemId = me.grid.attr("ItemId");
+
         // Mặc định chọn dòng đầu tiên
         me.grid.find("tbody tr").eq(0).addClass("selectedRow");
     }
@@ -232,7 +254,16 @@ class BaseGrid {
      * NTXUAN 06.05.2021
      */
     add(){
-        
+        let me = this,
+            param = {
+                Parent: this,
+                FormMode: Enumeration.FormMode.Add
+            };
+
+        // Nếu có form detail thì show form
+        if(me.formDetail){
+            me.formDetail.open(param);
+        }
     }
 
     /**
@@ -240,7 +271,28 @@ class BaseGrid {
      * NTXUAN 06.05.2021
      */
     edit(){
+        let me = this,
+            param = {
+                Parent: this,
+                FormMode: Enumeration.FormMode.Edit,
+                ItemId: me.ItemId,
+                Record: {...me.getSelectedRecord()}
+            };
+
+        // Nếu có form detail thì show form
+        if(me.formDetail){
+            me.formDetail.open(param);
+        }
+    }
+
+     /**
+     * Hàm nạp mới dữ liệu
+     * NTXUAN 06.05.2021
+     */
+    refresh(){
+        let me = this;
         
+        me.getDataServer();
     }
 
      /**
