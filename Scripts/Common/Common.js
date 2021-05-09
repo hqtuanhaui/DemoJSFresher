@@ -36,7 +36,7 @@ CommonFn.getValueEnum = (data, enumName) => {
 
 // Hàm ajax gọi lên server lấy dữ liệu
 CommonFn.Ajax = (url, method, data, fnCallBack, async = true) => {
-    // Kiểm tra xác thực authen
+    // Kiểm tra xác thực authen, tạm thời để true vì chưa làm chức năng login
     let authorization = localStorage.getItem("Authorization") || true;
 
     if(authorization){
