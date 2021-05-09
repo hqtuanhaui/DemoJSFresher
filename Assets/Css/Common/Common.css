@@ -27,6 +27,19 @@ td {
     display: flex;
 }
 
+div.toolbarGrid {
+    height: 40px;
+    margin: 10px;
+    border: 1px solid;
+}
+
+.buttonItem {
+    padding: 10px;
+    border-right: 1px solid;
+    cursor: pointer;
+    background: #f7dbdb;
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -57,4 +70,8 @@ body{
 .main{
     flex: 1;
     border: 1px solid;
+}
+
+.selectedRow{
+    background: #c6c6f7;
 }

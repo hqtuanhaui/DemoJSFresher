@@ -22,3 +22,12 @@ Resource.Gender = {
     Male: "Nam",
     Other: "Khác"
 }
+
+// Các commandType của toolbar
+Resource.CommandType = {
+    Add: "Add",
+    Edit: "Edit",
+    Delete: "Delete",
+    Import: "Import",
+    Export: "Export"
+}

@@ -33,8 +33,17 @@
             <!-- Phần nội dung chính -->
             <div class="main">
 
+                <!-- Toolbar  -->
+                <div id="toolBarEmployee" class="d-flex toolbarGrid">
+                    <div CommandType="Add" class="buttonItem">Thêm</div>
+                    <div CommandType="Edit" class="buttonItem">Sửa</div>
+                    <div CommandType="Delete" class="buttonItem">Xóa</div>
+                    <div CommandType="Export" class="buttonItem">Xuất khẩu</div>
+                    <div CommandType="Import" class="buttonItem">Nhập khẩu</div>
+                </div>
+
                 <!-- Grid danh sách nhân viên -->
-                <div id="gridEmployee" Url="v1/employees">
+                <div id="gridEmployee" Url="v1/employees" Toolbar="toolBarEmployee">
                     <div class="col" FieldName="EmployeeCode">Mã nhân viên</div>
                     <div class="col" FieldName="FullName">Họ tên</div>
                     <div class="col" FieldName="DateOfBirth" DataType="Date">Ngày sinh</div>

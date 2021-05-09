@@ -18,7 +18,52 @@ class BaseGrid {
      * CreatedBy: NTXUAN 06.05.2021
      */
     initEvents(){
+        let me = this,
+            toolbarId = me.grid.attr("Toolbar"),
+            toolbar = $(`#${toolbarId}`);
+
+        // Khởi tạo các sự kiện cho toolbar
+        if(toolbar){
+            toolbar.find(".buttonItem").on("click", function(){
+                let commandType = $(this).attr("CommandType");
+
+                switch(commandType){
+                    case Resource.CommandType.Add: // Thêm mới
+                        me.add();
+                        break;
+                    case Resource.CommandType.Edit: // Sửa
+                        me.edit();
+                        break;
+                    case Resource.CommandType.Delete: // Nhập khẩu
+                        me.delete();
+                        break;
+                    case Resource.CommandType.Import: // Nhập khẩu
+                        me.import();
+                        break;
+                    case Resource.CommandType.Export: // Xuất khẩu
+                        me.export();
+                        break;
+                }
+            });
+        }
+
+        // Khởi tạo sự kiện select row
+        me.initEventSelectRow();
+    }
+
+    /**
+     * Khởi tạo sự kiện khi select dòng
+     * NTXUAN 06.05.2021
+     */
+    initEventSelectRow(){
         let me = this;
+
+        // Khởi tạo sự kiện khi chọn các dòng khác nhau
+        me.grid.on("click", "tbody tr", function(){
+            $(".selectedRow").removeClass("selectedRow");
+
+            $(this).addClass("selectedRow");
+        });
     }
 
     /**
@@ -55,6 +100,9 @@ class BaseGrid {
     
         me.grid.html("");
         me.grid.append(table);
+
+        // Làm một số thứ sau khi binding xong
+        me.afterBinding();
     }
 
      /**
@@ -106,6 +154,9 @@ class BaseGrid {
                 cell.addClass(className);
                 row.append(cell);
             });
+
+            // Lưu lại data để sau lấy ra dùng
+            row.data("data", item);
     
             tbody.append(row);
         });
@@ -152,5 +203,67 @@ class BaseGrid {
         }
     
         return className;
+    }
+
+    /**
+     * Xử lý một số thứ sau khi binding xong
+     * NTXUAN 06.05.2021
+     */
+    afterBinding(){
+        let me = this;
+
+        // Mặc định chọn dòng đầu tiên
+        me.grid.find("tbody tr").eq(0).addClass("selectedRow");
+    }
+
+    /**
+     * Lấy ra bản ghi đang được select
+     * @returns 
+     */
+    getSelectedRecord(){
+        let me = this,
+            data = me.grid.find(".selectedRow").eq(0).data("data");
+
+        return data;
+    }
+
+    /**
+     * Hàm thêm mới
+     * NTXUAN 06.05.2021
+     */
+    add(){
+        
+    }
+
+    /**
+     * Hàm sửa
+     * NTXUAN 06.05.2021
+     */
+    edit(){
+        
+    }
+
+     /**
+     * Hàm xóa
+     * NTXUAN 06.05.2021
+     */
+    delete(){
+        
+    }
+
+    /**
+     * Hàm nhập khẩu
+     * NTXUAN 06.05.2021
+     */
+    import(){
+
+    }
+
+    /**
+     * Hàm xuất khẩu
+     * NTXUAN 06.05.2021
+     */
+    export(){
+
     }
 }
