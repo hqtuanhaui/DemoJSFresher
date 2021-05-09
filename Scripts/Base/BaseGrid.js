@@ -257,7 +257,8 @@ class BaseGrid {
         let me = this,
             param = {
                 Parent: this,
-                FormMode: Enumeration.FormMode.Add
+                FormMode: Enumeration.FormMode.Add,
+                Record: {}
             };
 
         // Nếu có form detail thì show form
