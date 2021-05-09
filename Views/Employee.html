@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách nhân viên</title>
+
+    <!-- CSS chung -->
+    <link rel="stylesheet" href="../Assets/Css/Common/Common.css">
+
+    <!-- Css màn hình riêng -->
+    <link rel="stylesheet" href="../Assets/Css/Views/Employee/Employee.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- Phần tiêu đề trang -->
+        <div class="header"></div>
+
+        <div class="content d-flex">
+
+            <!-- Phần sidebar -->
+            <div class="sidebar"></div>
+
+            <!-- Phần nội dung chính -->
+            <div class="main">
+
+                <!-- Grid danh sách nhân viên -->
+                <div id="gridEmployee" Url="v1/employees">
+                    <div class="col" FieldName="EmployeeCode">Mã nhân viên</div>
+                    <div class="col" FieldName="FullName">Họ tên</div>
+                    <div class="col" FieldName="DateOfBirth" DataType="Date">Ngày sinh</div>
+                    <div class="col" FieldName="Gender" DataType="Enum" EnumName="Gender">Giới tính</div>
+                    <div class="col" FieldName="PhoneNumber">Số điện thoại</div>
+                    <div class="col" FieldName="Address">Địa chỉ</div>
+                    <div class="col" FieldName="Email">Email</div>
+                    <div class="col" FieldName="Salary" DataType="Number">Lương</div>
+                    <div class="col" FieldName="DepartmentName">Phòng ban</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Thư viện -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Dùng chung -->
+    <script src="../Scripts/Common/Enumeration.js"></script>
+    <script src="../Scripts/Common/Resource.js"></script>
+    <script src="../Scripts/Common/Constant.js"></script>
+    <script src="../Scripts/Common/Common.js"></script>
+    <script src="../Scripts/Base/BaseGrid.js"></script>
+
+    <!-- Màn hình riêng -->
+    <script src="../Scripts/Views/Employee/Employee.js"></script>
+</body>
+
+</html>

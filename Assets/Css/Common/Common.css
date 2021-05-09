@@ -1,0 +1,28 @@
+.align-right{
+    text-align: right;
+}
+
+.align-center{
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 10px;
+    width: 95%;
+}
+
+th {
+    padding: 10px;
+    background: #d4cfcf;
+    border: 1px solid;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid;
+}
+
+.d-flex{
+    display: flex;
+}
