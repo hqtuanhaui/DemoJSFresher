@@ -78,3 +78,4 @@ CommonFn.Ajax = (url, method, data, fnCallBack, async = true) => {
         })
     }
 }
+

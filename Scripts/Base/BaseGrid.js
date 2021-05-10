@@ -158,7 +158,7 @@ class BaseGrid {
         // Duyệt từng phần tử để build các row
         data.filter(function(item){
             let row = $("<tr></tr>");
-    
+            
             // Duyệt từng cột trên grid để lấy ra thông tin các cột
             me.grid.find(".col").each(function(){
                 let column = $(this),
@@ -301,7 +301,20 @@ class BaseGrid {
      * NTXUAN 06.05.2021
      */
     delete(){
-        
+        let me = this
+        let url = me.urlDelete,
+            method = Resource.Method.Delete,
+            data = me.getSelectedRecord(),
+            urlFull = `${Constant.UrlPrefix}${url}/${data.EmployeeId}`
+            console.log(me)
+            CommonFn.Ajax(urlFull, method, data, function(response){
+                if(response){
+                    console.log("xóa dữ liệu thành công");
+                    me.getDataServer();
+                }else{
+                    console.log("Có lỗi khi xóa dữ liệu");
+                }
+            });
     }
 
     /**
