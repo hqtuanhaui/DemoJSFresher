@@ -14,7 +14,8 @@ class BaseForm {
     // Khởi tạo các sự kiện form
     initEvents() {
         let me = this;
-
+        
+        CommonFn.tabIndex();
         // Khởi tạo các sự kiện click button
         me.initButtonClick();
     }
@@ -86,11 +87,7 @@ class BaseForm {
     show() {
         let me = this;
         me.form.show();
-        let listEmployeeId = []
-        $('#gridEmployee td:first-child').each(function () {
-            listEmployeeId.push($(this).text())
-        });
-        me.listId = listEmployeeId;
+
         // reset dữ liệu
         me.resetForm();
     }
@@ -137,11 +134,15 @@ class BaseForm {
         CommonFn.Ajax(urlFull, method, data, function (response) {
             if (response) {
                 console.log("Cất dữ liệu thành công");
-
+                Swal.fire(
+                    'Thông báo!',
+                    'Lưu dữ liệu thành công!',
+                    'success'
+                  )
                 me.cancel();
                 me.Parent.getDataServer();
             } else {
-                console.log("Có lỗi khi cất dữ liệu");
+                
             }
         });
     }
@@ -198,6 +199,12 @@ class BaseForm {
         if (isValid) {
             isValid = me.validateId();
         }
+        if (isValid) {
+            isValid = me.validateFieldEmail();
+        }
+        if (isValid) {
+            isValid = me.validateFieldPhone();
+        }
 
         if (isValid) {
             isValid = me.validateCustom(); // Validate các trường hợp đặc biệt khác
@@ -219,7 +226,23 @@ class BaseForm {
                 isValid = false;
 
                 $(this).addClass("notValidControl");
-                $(this).attr("title", "Vui lòng không được để trống!");
+                $(this).attr("placeholder", "Vui lòng không được để trống!");
+                const Toast = Swal.mixin({
+                    toast: true,
+                    padding: '100px',
+                    position: 'top-center',
+                    showDenyButton: true,
+                    
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+                  Toast.fire({
+                    icon: 'error',
+                    title: 'Dữ liệu không hợp lệ'
+                  })
             } else {
                 $(this).removeClass("notValidControl");
             }
@@ -273,6 +296,47 @@ class BaseForm {
 
         return isValid;
     }
+    validateFieldEmail(){
+        let me = this,
+            isValid = true;
+
+        
+        me.form.find("[FieldName='Email']").each(function () {
+            let value = $(this).val();
+
+            // is not a number
+            if (!CommonFn.isEmail(value)) {
+                isValid = false;
+                $(this).addClass("notValidControl");
+                $(this).attr("title", "Vui lòng nhập đúng định dạng email!");
+            } else {
+                $(this).removeClass("notValidControl");
+            }
+        });
+
+        return isValid;
+    }
+    validateFieldPhone(){
+        let me = this,
+            isValid = true;
+
+        // Duyệt hết các trường require xem có trường nào bắt buộc mà ko có value ko
+        me.form.find("[FieldName='PhoneNumber']").each(function () {
+            let value = $(this).val();
+
+            // is not a number
+            if (!CommonFn.validatePhoneNumber(value)) {
+                isValid = false;
+                $(this).addClass("notValidControl");
+                $(this).attr("title", "Vui lòng nhập đúng định dạng số điện thoại!");
+            } else {
+                $(this).removeClass("notValidControl");
+            }
+        });
+
+        return isValid;
+    }
+    
     validateId() {
         let me = this,
             isValid = true;
@@ -282,13 +346,11 @@ class BaseForm {
                 dataType = control.attr("DataType"),
                 fieldName = control.attr("FieldName"),
                 value = me.getValueControl(control, dataType);
-
             data[fieldName] = value;
         });
-        console.log(data.EmployeeCode)
-        console.log(me.listId)
-        me.listId.forEach(item => {
-            if (data.EmployeeCode == item) {
+        
+        me.Parent.cacheData.forEach(item => {
+            if (data.EmployeeCode == item.EmployeeCode) {
                 isValid = false;
                 return isValid;
             }

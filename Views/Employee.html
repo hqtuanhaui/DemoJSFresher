@@ -9,13 +9,13 @@
 
     <!-- CSS chung -->
     <link rel="stylesheet" href="../Assets/Css/Common/Common.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Css màn hình riêng -->
     <link rel="stylesheet" href="../Assets/Css/Views/Employee/Employee.css">
 </head>
 
 <body>
-
     <div class="wrapper">
 
         <!-- Phần tiêu đề trang -->
@@ -63,20 +63,20 @@
                     <div class="formWrapp">
                         <div class="formContent">
                             <div class="row-item d-flex">
-                                <div class="control-item flex-1" >
+                                <div class="control-item flex-1">
                                     <label for="">Họ tên <span style="color: red;">(*)</span></label>
                                     <br>
-                                    <input type="text" FieldName="FullName" Require="true">
+                                    <input id="fullName" type="text" FieldName="FullName" Require="true">
                                 </div>
-                                <div class="control-item control-right flex-1" >
+                                <div class="control-item control-right flex-1">
                                     <label for="">Mã nhân viên <span style="color: red;">(*)</span></label>
                                     <br>
                                     <input type="text" FieldName="EmployeeCode" Require="true">
                                 </div>
                             </div>
-    
+
                             <div class="row-item d-flex">
-                                <div class="control-item flex-1" >
+                                <div class="control-item flex-1">
                                     <label for="">Giới tính</label>
                                     <br>
                                     <select FieldName="Gender" DataType="Enum" EnumName="Gender">
@@ -85,39 +85,39 @@
                                         <option value="2">Khác</option>
                                     </select>
                                 </div>
-                                <div class="control-item control-right flex-1" >
+                                <div class="control-item control-right flex-1">
                                     <label for="">Ngày sinh</label>
                                     <br>
                                     <input type="date" FieldName="DateOfBirth" DataType="Date">
                                 </div>
                             </div>
-    
+
                             <div class="row-item d-flex">
-                                <div class="control-item flex-1" >
+                                <div class="control-item flex-1">
                                     <label for="">Số điện thoại</label>
                                     <br>
                                     <input type="text" FieldName="PhoneNumber">
                                 </div>
-                                <div class="control-item control-right flex-1" >
+                                <div class="control-item control-right flex-1">
                                     <label for="">Email</label>
                                     <br>
                                     <input type="text" FieldName="Email">
                                 </div>
                             </div>
-    
+
                             <div class="row-item d-flex">
-                                <div class="control-item flex-1" >
+                                <div class="control-item flex-1">
                                     <label for="">Mức lương <span style="color: red;">(*)</span></label>
                                     <br>
                                     <input type="number" FieldName="Salary" DataType="Number" Require="true">
                                 </div>
-                                <div class="control-item control-right flex-1" >
+                                <div class="control-item control-right flex-1">
                                     <label for="">Phòng ban</label>
                                     <br>
                                     <input type="text" FieldName="DepartmentName">
                                 </div>
                             </div>
-    
+
                             <div class="row-item d-flex">
                                 <div class="control-item flex-1">
                                     <label for="">Địa chỉ</label>
@@ -125,12 +125,12 @@
                                     <input type="text" FieldName="Address">
                                 </div>
                             </div>
-    
+
                             <div class="formBottom d-flex">
                                 <div class="btnSave btnForm" Command="Save">Lưu</div>
                                 <div class="btnCancel btnForm" Command="Cancel">Hủy</div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -138,11 +138,20 @@
             </div>
 
         </div>
+        <div class="modal"></div>
     </div>
 
+    <!-- Place at bottom of page -->
+    </div>
+
+    <script>
+
+    </script>
     <!-- Thư viện -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="../Scripts/Common/multiselect.js"></script>
     <!-- Dùng chung -->
     <script src="../Scripts/Common/Enumeration.js"></script>
     <script src="../Scripts/Common/Resource.js"></script>
@@ -150,15 +159,11 @@
     <script src="../Scripts/Common/Common.js"></script>
     <script src="../Scripts/Base/BaseForm.js"></script>
     <script src="../Scripts/Base/BaseGrid.js"></script>
-
     <!-- Màn hình riêng -->
     <script src="../Scripts/Views/Employee/EmployeeDetail.js"></script>
     <script src="../Scripts/Views/Employee/Employee.js"></script>
-    <script>
-        $( function() {
-    $( ".formContent" ).draggable();
-  } );
-    </script>
+
+
 </body>
 
 </html>

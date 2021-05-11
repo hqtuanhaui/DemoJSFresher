@@ -1,16 +1,16 @@
-1. Làm chức năng xóa 
-2. Validate trùng mã
-3. Validate Email
-4. Validate số điện thoại
-5. Làm chức năng loading dữ liệu
-6. Show sweet alert cất, xóa thành công ( tự ẩn sau 3 giây )
-7. Vẽ form cảnh báo lỗi 
-8. Làm chức năng Multi select để xóa nhiều
-9. Làm Disable toolbar theo select
-10. Làm cho phép form detail di chuyển
-11. Làm lại combo enum, date cho đẹp ( sử dụng datepicker )
-12. Mở form tự động focus ô đầu tiên
-13. Sử dụng tabindex để nhập liệu
+1. Làm chức năng xóa ok
+2. Validate trùng mã ok
+3. Validate Email ok
+4. Validate số điện thoại ok
+5. Làm chức năng loading dữ liệu ok 
+6. Show sweet alert cất, xóa thành công ( tự ẩn sau 3 giây ) ok
+7. Vẽ form cảnh báo lỗi ok 
+8. Làm chức năng Multi select để xóa nhiều ok
+9. Làm Disable toolbar theo select ok
+10. Làm cho phép form detail di chuyển ok 
+11. Làm lại combo enum, date cho đẹp ( sử dụng datepicker ) ok
+12. Mở form tự động focus ô đầu tiên ok
+13. Sử dụng tabindex để nhập liệu ok
 14. Sử dụng phím tắt lên xuống để select
 15. Sử dụng phím tắt cho các button toolbar
 16. Validate độ dài các ô input

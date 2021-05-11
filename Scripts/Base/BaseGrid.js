@@ -1,6 +1,6 @@
 // Base xử lý liên quan tới grid
 class BaseGrid {
-    constructor(gridId){
+    constructor(gridId) {
         let me = this;
 
         // Lưu lại grid
@@ -20,9 +20,9 @@ class BaseGrid {
     }
 
     // Khởi tạo form detail
-    initFormDetail(formId){
+    initFormDetail(formId) {
         let me = this;
-        
+
         // Khởi tạo form detail
         me.formDetail = new BaseForm(formId);
     }
@@ -31,17 +31,18 @@ class BaseGrid {
      * Hàm dùng để khơi tạo các sự kiện trên trang
      * CreatedBy: NTXUAN 06.05.2021
      */
-    initEvents(){
+    initEvents() {
         let me = this,
             toolbarId = me.grid.attr("Toolbar"),
             toolbar = $(`#${toolbarId}`);
-
+        CommonFn.onLoadPage();
         // Khởi tạo các sự kiện cho toolbar
-        if(toolbar){
-            toolbar.find(".buttonItem").on("click", function(){
+        if (toolbar) {
+
+            toolbar.find(".buttonItem").on("click", function () {
                 let commandType = $(this).attr("CommandType");
 
-                switch(commandType){
+                switch (commandType) {
                     case Resource.CommandType.Add: // Thêm mới
                         me.add();
                         break;
@@ -72,14 +73,29 @@ class BaseGrid {
      * Khởi tạo sự kiện khi select dòng
      * NTXUAN 06.05.2021
      */
-    initEventSelectRow(){
+    initEventSelectRow() {
         let me = this;
 
         // Khởi tạo sự kiện khi chọn các dòng khác nhau
-        me.grid.on("click", "tbody tr", function(){
-            $(".selectedRow").removeClass("selectedRow");
+        me.grid.on("click", "tbody tr", function () {
+            if ($(this).hasClass('selectedRow')) {
+                $(this).removeClass('selectedRow')
+                me.disableToolBar();
+            }
 
-            $(this).addClass("selectedRow");
+            else {
+                $(this).addClass("selectedRow");
+                me.disableToolBar();
+                
+            }
+        });
+        $("body").keydown(function (e) {
+            if (e.ctrlKey && (e.keyCode == 65 || e.keyCode == 97)) {
+                me.grid.find("tbody tr").each(function () {
+                    $(this).addClass("selectedRow");
+                })
+                e.preventDefault();
+            }
         });
     }
 
@@ -87,36 +103,36 @@ class BaseGrid {
      * Hàm lấy dữ liệu từ server xong binding lên grid
      * CreatedBy: NTXUAN 06.05.2021
      */
-    getDataServer(){
+    getDataServer() {
         let me = this,
             url = me.grid.attr("Url"),
             urlFull = `${Constant.UrlPrefix}${url}`;
 
-        // Gọi ajax lấy dữ liệu trên server
-        CommonFn.Ajax(urlFull, Resource.Method.Get, {}, function(response){
-            if(response){
+        CommonFn.Ajax(urlFull, Resource.Method.Get, {}, function (response) {
+            if (response) {
                 me.cacheData = [...response];
 
                 me.loadData(response);
-            }else{
+
+            } else {
                 console.log("Có lỗi khi lấy dữ liệu từ server");
             }
         });
     }
 
-     /**
-     * Hàm dùng để binding dữ liệu ra grid
-     * CreatedBy: NTXUAN 06.05.2021
-     */
-    loadData(data){
+    /**
+    * Hàm dùng để binding dữ liệu ra grid
+    * CreatedBy: NTXUAN 06.05.2021
+    */
+    loadData(data) {
         let me = this,
             table = $("<table></table>"),
             thead = me.renderThead(),
             tbody = me.renderTbody(data);
-    
-            table.append(thead);
-            table.append(tbody);
-    
+
+        table.append(thead);
+        table.append(tbody);
+
         me.grid.find("table").remove();
         me.grid.append(table);
 
@@ -124,43 +140,43 @@ class BaseGrid {
         me.afterBinding();
     }
 
-     /**
-     * Hàm dùng để Render ra header của grid
-     * CreatedBy: NTXUAN 06.05.2021
-     */
-    renderThead(){
+    /**
+    * Hàm dùng để Render ra header của grid
+    * CreatedBy: NTXUAN 06.05.2021
+    */
+    renderThead() {
         let me = this,
             thead = $("<thead></thead>"),
             row = $("<tr></tr>");
-    
+
         // Duyệt toàn bộ các cột để lấy thông tin build header
-        me.grid.find(".col").each(function(){
+        me.grid.find(".col").each(function () {
             let text = $(this).text(),
                 th = $("<th></th>");
-    
+
             th.text(text);
             row.append(th);
         });
-    
+
         thead.append(row);
-    
+
         return thead;
     }
 
-     /**
-     * Hàm dùng để Render ra nội dung grid
-     * CreatedBy: NTXUAN 06.05.2021
-     */
-    renderTbody(data){
+    /**
+    * Hàm dùng để Render ra nội dung grid
+    * CreatedBy: NTXUAN 06.05.2021
+    */
+    renderTbody(data) {
         let me = this,
             tbody = $("<tbody></tbody>");
-    
+
         // Duyệt từng phần tử để build các row
-        data.filter(function(item){
+        data.filter(function (item) {
             let row = $("<tr></tr>");
-            
+
             // Duyệt từng cột trên grid để lấy ra thông tin các cột
-            me.grid.find(".col").each(function(){
+            me.grid.find(".col").each(function () {
                 let column = $(this),
                     fieldName = column.attr("FieldName"),
                     dataType = column.attr("DataType"),
@@ -168,7 +184,7 @@ class BaseGrid {
                     valueCell = item[fieldName],
                     className = me.getClassFormat(dataType),
                     value = me.getValue(valueCell, dataType, column);
-                
+
                 cell.text(value);
                 cell.addClass(className);
                 row.append(cell);
@@ -176,10 +192,10 @@ class BaseGrid {
 
             // Lưu lại data để sau lấy ra dùng
             row.data("data", item);
-    
+
             tbody.append(row);
         });
-    
+
         return tbody;
     }
 
@@ -187,9 +203,9 @@ class BaseGrid {
      * Hàm dùng để lấy value các cell dựa vào DataType
      * CreatedBy: NTXUAN 06.05.2021
      */
-    getValue(data, dataType, column){
+    getValue(data, dataType, column) {
 
-        switch(dataType){
+        switch (dataType) {
             case Resource.DataTypeColumn.Number:
                 data = CommonFn.formatMoney(data);
                 break;
@@ -201,18 +217,18 @@ class BaseGrid {
                 data = CommonFn.getValueEnum(data, enumName);
                 break;
         }
-    
+
         return data;
     }
 
-     /**
-     * Hàm dùng để lấy class format cho từng kiểu dữ liệu
-     * CreatedBy: NTXUAN 06.05.2021
-     */
-    getClassFormat(dataType){
+    /**
+    * Hàm dùng để lấy class format cho từng kiểu dữ liệu
+    * CreatedBy: NTXUAN 06.05.2021
+    */
+    getClassFormat(dataType) {
         let className = "";
-    
-        switch(dataType){
+
+        switch (dataType) {
             case Resource.DataTypeColumn.Number:
                 className = "align-right";
                 break;
@@ -220,7 +236,7 @@ class BaseGrid {
                 className = "align-center";
                 break;
         }
-    
+
         return className;
     }
 
@@ -228,7 +244,7 @@ class BaseGrid {
      * Xử lý một số thứ sau khi binding xong
      * NTXUAN 06.05.2021
      */
-    afterBinding(){
+    afterBinding() {
         let me = this;
 
         // Lấy Id để phân biệt các bản ghi
@@ -236,24 +252,42 @@ class BaseGrid {
 
         // Mặc định chọn dòng đầu tiên
         me.grid.find("tbody tr").eq(0).addClass("selectedRow");
+        me.disableToolBar();
     }
 
     /**
      * Lấy ra bản ghi đang được select
      * @returns 
      */
-    getSelectedRecord(){
+    getSelectedRecord() {
         let me = this,
-            data = me.grid.find(".selectedRow").eq(0).data("data");
-
+            data = [];
+        me.grid.find("tbody tr").each(function (item) {
+            if ($(this).hasClass('selectedRow')) {
+                data.push($(this).data('data'))
+            }
+        })
         return data;
+    }
+    disableToolBar() {
+        let me = this,
+            data = me.getSelectedRecord();
+        if(data.length == 0){
+            console.log("k cos")
+            $('[commandtype="Edit"],[commandtype="Delete"]').off()
+            $('[commandtype="Edit"],[commandtype="Delete"]').addClass('disable')
+        }
+        else{
+            $('[commandtype="Edit"],[commandtype="Delete"]').on()
+            $('[commandtype="Edit"],[commandtype="Delete"]').removeClass('disable')
+        }
     }
 
     /**
      * Hàm thêm mới
      * NTXUAN 06.05.2021
      */
-    add(){
+    add() {
         let me = this,
             param = {
                 Parent: this,
@@ -262,7 +296,7 @@ class BaseGrid {
             };
 
         // Nếu có form detail thì show form
-        if(me.formDetail){
+        if (me.formDetail) {
             me.formDetail.open(param);
         }
     }
@@ -271,57 +305,61 @@ class BaseGrid {
      * Hàm sửa
      * NTXUAN 06.05.2021
      */
-    edit(){
+    edit() {
         let me = this,
             param = {
                 Parent: this,
                 FormMode: Enumeration.FormMode.Edit,
                 ItemId: me.ItemId,
-                Record: {...me.getSelectedRecord()}
+                Record: { ...me.getSelectedRecord() }
             };
 
         // Nếu có form detail thì show form
-        if(me.formDetail){
+        if (me.formDetail) {
             me.formDetail.open(param);
         }
     }
 
-     /**
-     * Hàm nạp mới dữ liệu
-     * NTXUAN 06.05.2021
-     */
-    refresh(){
+    /**
+    * Hàm nạp mới dữ liệu
+    * NTXUAN 06.05.2021
+    */
+    refresh() {
         let me = this;
-        
+
         me.getDataServer();
     }
 
-     /**
-     * Hàm xóa
-     * NTXUAN 06.05.2021
-     */
-    delete(){
+    /**
+    * Hàm xóa
+    * NTXUAN 06.05.2021
+    */
+    delete() {
         let me = this
         let url = me.urlDelete,
             method = Resource.Method.Delete,
-            data = me.getSelectedRecord(),
-            urlFull = `${Constant.UrlPrefix}${url}/${data.EmployeeId}`
-            console.log(me)
-            CommonFn.Ajax(urlFull, method, data, function(response){
-                if(response){
+            data = me.getSelectedRecord()
+        console.log(data)
+        data.forEach(element => {
+            console.log(data)
+            let urlFull = `${Constant.UrlPrefix}${url}/${element.EmployeeId}`
+            CommonFn.Ajax(urlFull, method, element, function (response) {
+                if (response) {
                     console.log("xóa dữ liệu thành công");
                     me.getDataServer();
-                }else{
+                } else {
                     console.log("Có lỗi khi xóa dữ liệu");
                 }
             });
+        });
+
     }
 
     /**
      * Hàm nhập khẩu
      * NTXUAN 06.05.2021
      */
-    import(){
+    import() {
 
     }
 
@@ -329,7 +367,7 @@ class BaseGrid {
      * Hàm xuất khẩu
      * NTXUAN 06.05.2021
      */
-    export(){
+    export() {
 
     }
 }
