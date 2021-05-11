@@ -48,7 +48,7 @@ class BaseForm {
 
         // Hiển thị form và reset
         me.show();
-
+        $('[FieldName="FullName"]').focus();
         // Kiểm tra xem có phải mode sửa không
         if (me.FormMode == Enumeration.FormMode.Edit) {
             me.bindingData(me.Record);
