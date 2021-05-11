@@ -86,7 +86,7 @@ class BaseGrid {
             else {
                 $(this).addClass("selectedRow");
                 me.disableToolBar();
-                
+
             }
         });
         $("body").keydown(function (e) {
@@ -272,12 +272,12 @@ class BaseGrid {
     disableToolBar() {
         let me = this,
             data = me.getSelectedRecord();
-        if(data.length == 0){
+        if (data.length == 0) {
             console.log("k cos")
             $('[commandtype="Edit"],[commandtype="Delete"]').off()
             $('[commandtype="Edit"],[commandtype="Delete"]').addClass('disable')
         }
-        else{
+        else {
             $('[commandtype="Edit"],[commandtype="Delete"]').on()
             $('[commandtype="Edit"],[commandtype="Delete"]').removeClass('disable')
         }
